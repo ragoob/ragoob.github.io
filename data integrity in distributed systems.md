@@ -20,11 +20,4 @@ Consistenty (linearizability), Availability,Partition tolerance
 فالداتا هتتأخر كتير ، المشكلة دى ممكن احلها عن طريق استخدام partitioned committed log زى مثلا Kafka او اى committed log تانى يكون بيدعم ال partitioning لكن ولأن ال ordering مقدرش اضمنها الا على مستوى ال partition الواحد فهنا لازم اعمل partition key
 يكون بيضمن أن الداتا المتطابقة إلى مش عايزها تتكرر تدخل فى نفس البارتشن زى مثلا أن ال key بتاعى يكون ال user name دا مثلا فانا كدا اقدر ازود partition as I need واقدر اقوم اكتر من consumer واكون حليت مشكلة ال scalability طبعا الحل دا له مشاكل بردوا زى ال hotspot partition
 وهو ممكن تلاقى بارتشن عليه زحمة اكتر من بارتشن تانى لكن دا مش موضوع الثريد نتكلم عنها فى ثريد تانى أن شاء الله
-Mohammed Ragab
-Mohammed Ragab
-@rgbdev
-Backend / DevOps engineer
-Follow on Twitter
-twitter-thread.com/t/1601656457443028993
-Missing some tweets in this thread? Or failed to load images or videos? You can try to force a refresh.
 
