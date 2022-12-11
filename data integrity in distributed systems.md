@@ -1,5 +1,5 @@
 
-## عن ال data integrity فى الأنظمة الموزعة وال stream processing وأشياء أخرى 
+# عن ال data integrity فى الأنظمة الموزعة وال stream processing وأشياء أخرى 
 لما يكون عندنا داتا ستور واحدة فى السيستم غالبا مشاكل ال concurrency مبتبئاش ضيف عندنا لكن تخيل لو شغالين على نظام موزع اكتر من داتا ستور معانا محتاجين ن replicate فيهم البيانات وطبعا ممكن يكونوا مختلفين
 النوع SQL , index , cache فى ال distributed system ال ACID والحاجات الجميلة دى مش معانا لان عندنا اكتر من behavior خارج عن الابلكشن بتاعنا زى 
 Network , Node , Clock (time behavior)
