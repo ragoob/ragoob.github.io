@@ -24,4 +24,4 @@ I'm a [software engineer] backend / DevOps focused. I mainly use #Nodejs and #Go
 
 # Blogs
 
-- عن الداتا integrity فى الأنظمة الموزعة واشياء اخرى
+- data integrity in distributed systems
