@@ -23,4 +23,5 @@ I'm a [software engineer] backend / DevOps focused. I mainly use #Nodejs and #Go
 * [Kube carbonara](https://github.com/kube-carbonara) Carbonara is multiple kubernetes clusters management tools written in Go
 
 # Blogs
-عن الداتا integrity فى الأنظمة الموزعة واشياء اخرى
+
+- عن الداتا integrity فى الأنظمة الموزعة واشياء اخرى
