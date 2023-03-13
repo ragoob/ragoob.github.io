@@ -1,0 +1,14 @@
+<img src="/public/request-pipeline.png"  style="margin-left: auto; margin-right: auto;display: block;width: 50%;">
+
+لو بيتم التواصل بين ال servers وبعضها عن طريق single socket channel ودا باترن بنستخدمه فى ال leader replication عشان اضمن ان ال messages بتروح من ال leader لل followers in order. لكن لو كل request منتظر الى قبله يرجعله response فدا هيعلى ال latency فلذلك ال requests
+وهى بتتحط فى ال queue لازم نتأكد ان ال queue اتملى بشكل كافى عشان نقدر نتأكد اننا بنستخدم كل ال resources المتاحة فى ال server. مثلا فى ال Single update queue pattern ودا بستخدمه عشان اضمن ان العلميات فى ال WAL هتتهندل One at time عشان ال ordering فى الباترن دا بقدر احط requests
+لحد ما ال queue size يتملى لكن اثناء ماهى بتعمل processing لل requests هى بت process one at a time ودا بيخلى ال capacity بتاعت السيرفر مش مستخدمة بشكل كامل فهلاقى عندى موارد مهدرة. فإيه الحل الحل هو ال nodes تبعت ال requests بدون انتظار ال responses من الى ال requests الى قبل كدا
+دا هيحصل ازاى هيحصل عن طريق ال Request pipeline pattern كنا اتكلمنا عنه فى كافكا بدون ذكر اسمه ايه الى بيحصل فى الباترن داهو اننا بيكون عندنا two threads بدل واحد - واحد بيبعت ال requests عن طريق network channel والتانى عشان يستقبل ال responses عن طريق ال network بردوا .
+ال Sender node هتبعت الrequest عن طريق ال network بدون انتظار response وفيه thread تانى هيبدأ يشتغل عشان يقرأ ال responses دى فى الحالة دى ممكن ال response handler thread دا يهندل بنفسه ال processing دا او يديه ل Singular update queue يشتغل عليه. للأسف الحكاية دى كدا مخلصتش
+عندنا مشكلتين فى الموضوع دا الأولى هو ان ال Queue بتاع ال requests لما بئا separate اصبح عمال يقبل requests فى حين ان ممكن ال consumers nodes متسحبش حاجة فدا هيخلى ال Node المسؤولة عن ال requests دى overloaded فالحل اننا نحدد ال max inflight requests عن
+اختيار ال data structure بتاعت ال queue دا زى مثلا اننا نستخدم blocking queue ال queue بيبدأ ب size معين لو وصل ال size دا بيحصله blocking ومش هيقبل requests زيادة لكن مع وجود responses هيبدأ يسمح بدخول requests جديدة عن طريق انه يخرج ال requests الى حصل لها response
+المشكلة التانية هو ال failure handling والى ممكن تبوط ال ordering مثلا فى Kafka لو ببعت مسج والمسج دى حصل لها failure فال client هيعمل retry فى حين ان ممكن مسج تانية تدخل وتنجح اثناء ال retry بتاع الاولى فهنا السيرفر محتاج تكنيك يقدر ي reject بيه ال out of order requests
+والا هيفضل under risk مع كل failure and retry المشكلة دى مثلا Raft حلتها عن طريق انها بتبعت ال previous log index المتوقعة مع كل Log entry فلما بيلاقى فيه out of order بي reject . فى Kafka بيسمح بتحديد ال "max in flight requests per connection"تكون اكتر من واحدة
+لكن بيديك انك تقدر تعمل Idempotence producer عن طريق انه بي assigns a unique identifier لكل request فال broker بيقدر يبص على ال sequence number الى جاية من كل request وي reject ال out of order وممكن تقفل ال max in flight على واحدة لكن دى هتعمل مشاكل تانية فى ال performance .
+الباترن دا مستخدم فى اغلب ال consensus algorithm زى RAFT و ZAB وفى كافكا
+
