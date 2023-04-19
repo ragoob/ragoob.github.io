@@ -2,7 +2,6 @@
 ![Teran Island](/public/home.jpeg)
 
 Hi, This is my technical blog. It's a public space. It includes topics about Backend, system design , SecDevOps , Databases and book reviews
-
 I'm a [software engineer] backend / DevOps focused. I mainly use #Nodejs and #Go.
 
 # Social profiles
